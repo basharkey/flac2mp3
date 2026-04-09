@@ -17,6 +17,7 @@ def convert(input_file: Path, output_file: Path, overwrite: bool):
     if output_file.is_file() and not overwrite:
         print(f"'{output_file}' already exists skipping...")
     else:
+        # `-map a` don't copy album covers
         subprocess.run(['ffmpeg', '-y', '-i', input_file, '-ab', '320k', '-id3v2_version', '3', '-map', 'a', output_file], check=True, stderr=subprocess.DEVNULL)
 
 with concurrent.futures.ThreadPoolExecutor() as executor:
