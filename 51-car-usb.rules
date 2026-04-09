@@ -1,0 +1,1 @@
+ACTION=="change", SUBSYSTEM=="block", ENV{ID_SERIAL}="Corsair_Voyager_GTX_17408082000105410140" RUN+="/usr/bin/sudo -u bsharkey bash -c '/usr/bin/test -d /media/bsharkey/D4B7-9D03 && /usr/local/bin/flac2mp3.py -i ~/Music/artists -o /media/bsharkey/D4B7-9D03'"
