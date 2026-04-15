@@ -22,8 +22,11 @@ def convert(input_file: Path, output_file: Path, overwrite: bool):
         # `-map a` don't copy album covers
         subprocess.run(['ffmpeg', '-y', '-i', input_file, '-ab', '320k', '-id3v2_version', '3', '-map', 'a', output_file], check=True, stderr=subprocess.DEVNULL)
 
-with open(args.config, 'r') as c:
-    config = json.load(c)
+try:
+    with open(args.config, 'r') as c:
+        config = json.load(c)
+except FileNotFoundError as e:
+    config = {}
 
 with concurrent.futures.ThreadPoolExecutor() as executor:
     for input_file in args.input_dir.rglob('*.flac'):
