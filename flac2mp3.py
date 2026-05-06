@@ -30,10 +30,7 @@ except FileNotFoundError as e:
 
 with concurrent.futures.ThreadPoolExecutor() as executor:
     for input_file in args.input_dir.rglob('*.flac'):
-        exclude = False
-        for part in input_file.parts:
-            if part in config.get('exclusions', []):
-                exclude = True
+        exclude = any(part in config.get('exclusions', []) for part in input_file.parts)
 
         if not exclude:
             output_file = args.output_dir.joinpath(input_file.relative_to(args.input_dir)).with_suffix('.mp3')
