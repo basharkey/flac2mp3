@@ -10,7 +10,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('-i', '--input-dir', type=Path, default=Path.home().joinpath('Music/artists'))
 parser.add_argument('-o', '--output-dir', type=Path, default=Path('mp3'))
 parser.add_argument('--overwrite', action='store_true')
-parser.add_argument('--config', type=Path, default=Path.home().joinpath('.config/flac2mp3/flac2mp3.json'))
+parser.add_argument('--config', type=Path, default=Path.home().joinpath('.config/flac2mp3.json'))
 args = parser.parse_args()
 
 def convert(input_file: Path, output_file: Path, overwrite: bool):
