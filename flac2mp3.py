@@ -22,6 +22,15 @@ def convert(input_file: Path, output_file: Path, overwrite: bool):
         # `-map a` don't copy album covers
         subprocess.run(['ffmpeg', '-y', '-i', input_file, '-ab', '320k', '-id3v2_version', '3', '-map', 'a', output_file], check=True, stderr=subprocess.DEVNULL)
 
+def sanitize_path(input_path: Path) -> Path:
+    char_replacements = {
+        ':': ';'
+    }
+    output_path = str(input_path.resolve())
+    for char_invalid, char_valid in char_replacements.items():
+        output_path = output_path.replace(char_invalid, char_valid)
+    return Path(output_path)
+
 try:
     with open(args.config, 'r') as c:
         config = json.load(c)
@@ -34,6 +43,6 @@ with concurrent.futures.ThreadPoolExecutor() as executor:
 
         if not exclude:
             output_file = args.output_dir.joinpath(input_file.relative_to(args.input_dir)).with_suffix('.mp3')
-            executor.submit(convert, input_file, output_file, args.overwrite)
+            executor.submit(convert, input_file, sanitize_path(output_file), args.overwrite)
         else:
             print(f"'{input_file}' in exclusions, skipping...")
